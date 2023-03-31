@@ -1,0 +1,39 @@
+<section>
+  <div class="container px-6 py-10 mx-auto" >
+    <div class="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2">
+      <div class="lg:flex" *ngFor="let post of posts">
+        <div class="flex flex-col lg:flex-row justify-between py-6">
+          <div class="w-full lg:w-64 mb-4 lg:mb-0">
+            <img class="object-cover w-full h-56 rounded-lg" src="{{post.image}}" alt="">
+          </div>
+
+          <div class="flex-1 flex-col justify-between py-6 lg:mx-6">
+            <a routerLink="{{post.id}}" class="text-xl font-semibold text-gray-800 hover:underline ">
+              {{post.title}}
+            </a>
+
+            <div class="mt-2 text-gray-500 self-end">
+              {{post.content}}
+            </div>
+
+            <span class="text-sm text-gray-500">{{post?.created_at | date:'dd/MM/yyyy HH:mm a'}}</span>
+
+          </div>
+<!--          <div class="flex flex-col justify-between py-6 lg:mx-6">-->
+<!--            <a href="#" class="text-xl font-semibold text-gray-800 hover:underline dark:text-white ">-->
+<!--              How to use sticky note for problem solving-->
+<!--            </a>-->
+
+<!--            <span class="text-sm text-gray-500 dark:text-gray-300">On: 20 October 2019</span>-->
+<!--          </div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
