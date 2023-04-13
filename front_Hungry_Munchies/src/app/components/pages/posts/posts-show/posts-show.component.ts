@@ -22,6 +22,7 @@ export class PostsShowComponent implements OnInit{
     this.postService.getPost(id).subscribe({
       next: (receivedPost: PostModel) => {
         this.post = receivedPost;
+        console.log(this.post);
       },
       error: (error) => {
         console.log(error);

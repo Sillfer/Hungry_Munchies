@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AuthorModel} from "../models/author.model";
-import {BehaviorSubject, catchError, Observable, of, tap} from "rxjs";
+import {BehaviorSubject, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
 import {StaticService} from "./static.service";
 
@@ -16,8 +16,13 @@ export class AuthorService {
     private staticService: StaticService
   ) {
   }
-  getAllAuthors(){
+
+  getAllAuthors() {
     return this.http.get<AuthorModel[]>(this.staticService.baseUrl + 'authors/all', this.staticService.httpOptions);
+  }
+
+  getAuthorCount() {
+    return this.http.get<number>(this.staticService.baseUrl + 'authors/count', this.staticService.httpOptions);
   }
 
 

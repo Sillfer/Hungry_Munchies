@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {UserModel} from "../models/user.model";
 import {StaticService} from "./static.service";
-import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject} from "rxjs";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {BehaviorSubject, catchError, Observable, throwError} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -17,17 +17,26 @@ export class UserService {
     private staticValue: StaticService
   ) { }
 
-  // getUsers() {
-  //   this.http.get(this.staticValue.baseUrl + 'authors/all', this.staticValue.httpOptions).subscribe(
-  //     (users: UserModel[]) => {
-  //       this.users.next(users);
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  //   return this.users$;
-  // }
+  handleError(error: HttpErrorResponse) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    console.error(errorMessage);
+    return throwError(errorMessage);
+  }
+
+  getUsers(): Observable<any> {
+    return this.http.get<any>(`${this.staticValue.baseUrl}authors/all`, this.staticValue.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
 
   getUser(user_id: number) {
     return this.http.get(this.staticValue.baseUrl + 'users/' + user_id, this.staticValue.httpOptions);

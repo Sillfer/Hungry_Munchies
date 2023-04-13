@@ -31,4 +31,9 @@ public class UserController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	@GetMapping("/profile")
+	public User getProfile(){
+		return service.getProfile();
+	}
 }

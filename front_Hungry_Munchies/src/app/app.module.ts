@@ -16,8 +16,15 @@ import {MainHeaderComponent} from './components/sides/main-header/main-header.co
 import {SideBarComponent} from './components/sides/side-bar/side-bar.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./services/authconfig.interceptor";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { DashboardComponent } from './components/pages/dashboard/dashboard.component';
+import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { UserDashboardComponent } from './components/pages/user-dashboard/user-dashboard.component';
+import { TablePostComponent } from './components/table-post/table-post.component';
+import { AboutUsComponent } from './components/pages/about-us/about-us.component';
+import { PolicyComponent } from './components/pages/policy/policy.component';
+import { ContactComponent } from './components/pages/contact/contact.component';
+import { CreatePostDialogComponent } from './components/create-post-dialog/create-post-dialog.component';
 
 @NgModule({
   declarations: [
@@ -33,14 +40,22 @@ import { DashboardComponent } from './components/pages/dashboard/dashboard.compo
     FooterComponent,
     MainHeaderComponent,
     SideBarComponent,
-    DashboardComponent
+    DashboardComponent,
+    PageNotFoundComponent,
+    UserDashboardComponent,
+    TablePostComponent,
+    AboutUsComponent,
+    PolicyComponent,
+    ContactComponent,
+    CreatePostDialogComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        FormsModule
+    ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,

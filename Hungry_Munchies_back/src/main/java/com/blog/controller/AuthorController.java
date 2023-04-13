@@ -2,6 +2,7 @@ package com.blog.controller;
 
 import java.util.List;
 
+import com.blog.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,18 @@ import com.blog.service.AuthorService;
 public class AuthorController {
 	@Autowired
 	private AuthorService service;
-	
-	
+	@Autowired
+	private AuthorRepository authorRepository;
+
+
 	@GetMapping("/all")
 	public List<Author> allAccess() {
 		return service.getAll();
+	}
+
+	@GetMapping("/count")
+	public long countAuthors(){
+		return authorRepository.count();
 	}
 	
 	@GetMapping(value = "/{id}")

@@ -1,5 +1,8 @@
 package com.blog.payload;
 
+import com.blog.model.ECategory;
+import com.blog.model.Status;
+
 import java.util.Date;
 
 
@@ -11,11 +14,13 @@ public class PostDTO {
     private Long authorId;
     private Date created_at;
     private Date updated_at;
+    private ECategory category;
+    private Status status;
 
     public PostDTO() {
     }
 
-    public PostDTO(Long id, String title, String image, String content, Long authorId, Date created_at, Date updated_at) {
+    public PostDTO(Long id, String title, String image, String content, Long authorId, Date created_at, Date updated_at, ECategory category, Status status) {
         this.id = id;
         this.title = title;
         this.image = image;
@@ -23,6 +28,8 @@ public class PostDTO {
         this.authorId = authorId;
         this.created_at = created_at;
         this.updated_at = updated_at;
+        this.category = category;
+        this.status = status;
     }
 
     public Long getId() {
@@ -43,6 +50,22 @@ public class PostDTO {
 
     public String getImage() {
         return image;
+    }
+
+    public ECategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(ECategory category) {
+        this.category = category;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public void setImage(String image) {

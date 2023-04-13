@@ -9,4 +9,6 @@ import com.blog.model.Author;
 public interface AuthorRepository extends JpaRepository<Author, Long> {
 
 	Author findByName(String name);
+
+	long count();
 }

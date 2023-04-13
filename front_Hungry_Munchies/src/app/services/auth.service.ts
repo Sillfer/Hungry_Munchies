@@ -9,7 +9,7 @@ import {User} from "./user";
   providedIn: 'root'
 })
 export class AuthService {
-
+  showComponent: boolean = true;
   headers = new HttpHeaders().set('Content-Type', 'application/json');
   currentUser = {};
 
@@ -32,7 +32,19 @@ export class AuthService {
     return this.http.post<any>(`${this.staticValue.baseUrl}auth/signin`, user)
       .subscribe((res: any) => {
         localStorage.setItem('access_token', `${res.tokenType} ${res.accessToken}`)
-        this.router.navigate(['restrict/' + res.id]).then(r => console.log(r));
+        let role = JSON.parse(atob(res.accessToken.split('.')[1])).role;
+        if (role === 'ROLE_MODERATOR') {
+          console.log(res.id);
+          this.router.navigate(['admin-dashboard/' + res.id]).then(r => console.log(r));
+          this.showComponent = false;
+        } else if (role === 'ROLE_USER') {
+          console.log(res.id);
+          this.router.navigate(['profile/' + res.id]).then(r => console.log(r));
+          this.showComponent = false;
+        } else {
+          this.router.navigate(['home']).then(r => console.log(r));
+          this.showComponent = true;
+        }
       })
   }
 
@@ -63,5 +75,7 @@ export class AuthService {
     }
     return throwError(msg);
   }
+
+
 }
 

@@ -8,6 +8,7 @@ export class PostModel {
     public image?: string,
     public ingredients?: string,
     public steps?: string,
+    public category?: string,
 
 
     public author?: AuthorModel,

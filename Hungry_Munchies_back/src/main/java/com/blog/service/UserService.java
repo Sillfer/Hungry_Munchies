@@ -1,6 +1,10 @@
 package com.blog.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +15,9 @@ import com.blog.repository.UserRepository;
 public class UserService {
     @Autowired
     private UserRepository repository;
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
     
     @Autowired
 	PasswordEncoder encoder;
@@ -54,4 +61,11 @@ public class UserService {
 		return user;
 	}
 
+	public User getProfile() {
+//		System.out.println( SecurityContextHolder.getContext().getAuthentication());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String username = authentication.getName();
+		System.out.println(username);
+		return  repository.findByUsername(username).orElseThrow(() -> new RuntimeException("User Not Found"));
+	}
 }

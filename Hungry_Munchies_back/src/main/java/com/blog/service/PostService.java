@@ -1,14 +1,22 @@
 package com.blog.service;
 
+import com.blog.model.ECategory;
 import com.blog.model.Post;
+import com.blog.model.Status;
 import com.blog.model.User;
 import com.blog.repository.PostRepository;
 import com.blog.repository.UserRepository;
 import com.blog.security.jwt.JwtUtils;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -36,13 +44,9 @@ public class PostService {
         return repository.save(post);
     }
 
-//    public Post create(Post post, String token) throws NotFoundException {
-//        Long authorId = jwtUtils.extractUserId(token);
-//        User author = userRepository.findById(authorId).orElseThrow(() -> new NotFoundException("User not found"));
-//        post.setAuthor(author.getAuthor());
-//        post.setUpdated_at(new Date());
-//        return repository.save(post);
-//    }
+    public List<Post> getPostByCategory(ECategory category){
+        return  repository.findByCategory(category);
+    }
 
     public String deletePost(Long id) {
         Post post = repository.getOne(id);
@@ -52,8 +56,38 @@ public class PostService {
         return "Post deleted";
     }
 
+    public List<Post> getRecipesByAuthorId(Long id) {
+        return repository.findAllByAuthorId(id);
+    }
+
+    public List<Post> getThreeRandomPosts() {
+        List<Post> allPosts = repository.findAll();
+        List<Post> randomPosts = new ArrayList<>();
+
+        // Shuffle the list of posts
+        Collections.shuffle(allPosts);
+
+        for (int i = 0; i < Math.min(3, allPosts.size()); i++) {
+            randomPosts.add(allPosts.get(i));
+        }
+
+        return randomPosts;
+
+    }
+
+
     public List<Post> getAll() {
         return repository.findAll();
+    }
+
+    public List<Post> getAllPending(){
+        return repository.findByStatus(Status.PENDING);
+    }
+
+    public void publishPost(Long id){
+        Post post = repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post Not Found"));
+        post.setStatus(Status.PUBLISHED);
+        repository.save(post);
     }
 
     public Post getPost(Long id) {

@@ -1,6 +1,8 @@
 package com.blog.security.jwt;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +28,16 @@ public class JwtUtils {
 	public String generateJwtToken(Authentication authentication) {
 
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+		Map<String, Object> claims = new HashMap<>();
+		claims.put("role", userPrincipal.getAuthorities().iterator().next().getAuthority());
 
 		return Jwts.builder()
 				.setSubject((userPrincipal.getUsername()))
+				.claim("id", userPrincipal.getId())
 				.setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)
+				.addClaims(claims)
 				.compact();
 	}
 
